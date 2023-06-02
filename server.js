@@ -23,9 +23,7 @@ app.use('/', proxy('https://flatmates.com.au', {
     return proxyReqOpts;
   },
   userResDecorator: function(proxyRes, proxyResData, req, res) {
-    if (req.url.indexOf('?query=') !== -1) {
-      return proxyResData;
-	}
+      return proxyResData.toString('utf8');
   }
 }));
 
