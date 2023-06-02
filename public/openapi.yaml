@@ -1,0 +1,226 @@
+openapi: 3.0.1
+info:
+  title: Flatmates Search Plugin
+  description: A plugin that allows the user to search for an ideal apartment using ChatGPT.
+  version: 'v1'
+servers:
+  - url: https://openai-flatmates-search.onrender.com
+paths:
+  /:
+    get:
+      operationId: getRentalsFlatmates
+      summary: |
+        Get a list of available rentals in the area the user is searching using flatmates.com.au.
+      parameters:
+        - in: query
+          name: channel
+          schema:
+            type: string
+          required: true
+          description: Set to rent or buy depending on whether user wants to search for rental properties or houses to buy. Default is rent
+        - in: query
+          name: propertyType
+          schema:
+            type: string
+          required: true
+          description: A type of property the user is looking for. Options are house, apartment, townhouse, villa, unit or all. Default is all
+        - in: query
+          name: subdivision
+          schema:
+            type: string
+          required: false
+          description: State user is searching for properties in. Default is NSW
+        - in: query
+          name: postcode
+          schema:
+            type: number
+          required: false
+          description: Postcode user is searching for properties in. Default is 2287
+        - in: query
+          name: searchLocation
+          schema:
+            type: string
+          required: false
+          description: Location user is searching for properties in, formatted as "STATE POSTCODE". Default is NSW 2287
+        - in: query
+          name: pageSize
+          schema:
+            type: number
+          required: false
+          description: How many listings per page user is requesting. Default is 20
+        - in: query
+          name: page
+          schema:
+            type: number
+          required: false
+          description: What page number user is requesting. Default is 1
+        - in: query
+          name: minimumPrice
+          schema:
+            type: number
+          required: false
+          description: Minimum price of the property. Default is 200
+        - in: query
+          name: maximumPrice
+          schema:
+            type: number
+          required: false
+          description: Maximum price of the property. Default is 600
+        - in: query
+          name: surroundingSuburbs
+          schema:
+            type: boolean
+          required: false
+          description: Whether to search for surrounding suburbs. Default is true
+        - in: query
+          name: replaceProjectWithFirstChild
+          schema:
+            type: boolean
+          required: false
+          description: Default is false
+        - in: query
+          name: images
+          schema:
+            type: integer
+          required: false
+          description: Set to 0 to disable image results or any other number to set how many images per result to return. Default value is 2
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getApartmentsResponse'
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: The reason the request was rejected
+components:
+  schemas:
+    getApartmentsResponse:
+      type: object
+      properties:
+        totalListings:
+          type: number
+          description: Total number of property listings. You can also use this to work out how many more pages there are to navigate through by dividing the totalListings number by the number of listings per page
+        currentPage:
+          type: number
+          description: The current page number
+        pageSize:
+          type: number
+          description: The number of listings per page
+        results:
+          type: array
+          items:
+            type: object
+            properties:
+              prettyUrl:
+                type: string
+              description:
+                type: string
+              title:
+                type: string
+              features:
+                type: object
+                properties:
+                  general:
+                    type: object
+                    properties:
+                      bedrooms:
+                        type: number
+                      bathrooms:
+                        type: number
+                      parkingSpaces:
+                        type: number
+              price:
+                type: object
+                properties:
+                  display:
+                    type: string
+              propertyType:
+                type: string
+              address:
+                type: object
+                properties:
+                  streetAddress:
+                    type: string
+                  postcode:
+                    type: string
+                  suburb:
+                    type: string
+                  postCode:
+                    type: string
+                  location:
+                    type: object
+                    properties:
+                      latitude:
+                        type: number
+                      longitude:
+                        type: number
+                  state:
+                    type: string
+              propertyFeatures:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    features:
+                      type: array
+                      items:
+                        type: string
+                    section:
+                      type: string
+                    label:
+                      type: string
+              bond:
+                type: object
+                properties:
+                  display:
+                    type: string
+                  value:
+                    type: number
+              dateAvailable:
+                type: object
+                properties:
+                  date:
+                    type: string
+              inspectionsAndAuctions:
+                type: array
+                items:
+                  type: object
+              generalFeatures:
+                type: object
+                properties:
+                  bedrooms:
+                    type: object
+                    properties:
+                      label:
+                        type: string
+                      type:
+                        type: string
+                      value:
+                        type: number
+                  bathrooms:
+                    type: object
+                    properties:
+                      label:
+                        type: string
+                      type:
+                        type: string
+                      value:
+                        type: number
+                  parkingSpaces:
+                    type: object
+                    properties:
+                      label:
+                        type: string
+                      type:
+                        type: string
+                      value:
+                        type: number
