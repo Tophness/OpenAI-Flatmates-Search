@@ -15,9 +15,11 @@ function extractListingInfo(obj, n) {
   const images = obj.allPhotos && Array.isArray(obj.allPhotos) ? obj.allPhotos.slice(0, n).map(photo => photo.desktop) : [];
   const price = obj.displayRent;
   const billsIncluded = obj.displayBills;
-  const { number_bedrooms, number_bathrooms, number_occupants } = listing;
+  const bedrooms = listing.number_bedrooms;
+  const occupants = listing.number_bathrooms;
+  const billsIncluded = listing.number_occupants;
   const address = obj.displayAddress;
-  const roomsAvailable = obj.listingSummary;
+  const rooms = obj.listingSummary;
   const description = obj.subhead + ' ' + obj.description;
 
   return {
@@ -25,11 +27,11 @@ function extractListingInfo(obj, n) {
     images,
     price,
 	billsIncluded,
-    number_bedrooms,
-    number_bathrooms,
-    number_occupants,
+    bedrooms,
+    bathrooms,
+    occupants,
     address,
-    roomsAvailable,
+    rooms,
     description,
   };
 }
