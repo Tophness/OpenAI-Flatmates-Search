@@ -40,7 +40,7 @@ paths:
           schema:
             type: string
           required: false
-          description: The gender preference for the rental property. Options are "male", "female" or "couples"
+          description: The gender preference for the rental property. Options are "males", "females" or "couples"
         - in: query
           name: allFemale
           schema:
@@ -50,7 +50,7 @@ paths:
         - in: query
           name: lengthOfStay
           schema:
-            type: integer
+            type: string
           required: false
           description: The desired length of stay in weeks, months or years. e.g. "1 year"
         - in: query
@@ -146,7 +146,7 @@ paths:
         - in: query
           name: keywordInput
           schema:
-            type: boolean
+            type: string
           required: false
           description: Keywords for the rental property search
         - in: query
@@ -229,6 +229,7 @@ components:
             properties:
               url:
                 type: string
+                description: URL to the property listing. Start with the root server flatmates.com.au/ followed by this url.
               images:
                 type: array
                 items:
