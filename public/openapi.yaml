@@ -116,9 +116,9 @@ paths:
         - in: query
           name: shareHouses
           schema:
-            type: string
+            type: boolean
           required: false
-          description: Whether to include share houses in the rental properties. 1 = yes 0 = no
+          description: Whether to include share houses in the rental properties
         - in: query
           name: dateAvailable
           schema:
@@ -146,45 +146,45 @@ paths:
         - in: query
           name: keywordInput
           schema:
-            type: string
+            type: boolean
           required: false
           description: Keywords for the rental property search
         - in: query
           name: wholeProperties
           schema:
-            type: string
+            type: boolean
           required: false
-          description: Whether to include whole properties in the search. 1 = yes 0 = no
+          description: Whether to include whole properties in the search
         - in: query
           name: studios
           schema:
-            type: string
+            type: boolean
           required: false
-          description: Whether to include studios in the search. 1 = yes 0 = no
+          description: Whether to include studios in the search
         - in: query
           name: oneBeds
           schema:
-            type: string
+            type: boolean
           required: false
-          description: Whether to include 1-bedroom properties in the search. 1 = yes 0 = no
+          description: Whether to include 1-bedroom properties in the search
         - in: query
           name: grannyFlats
           schema:
-            type: string
+            type: boolean
           required: false
-          description: Whether to include granny flats in the search. 1 = yes 0 = no
+          description: Whether to include granny flats in the search
         - in: query
           name: studentAccommodation
           schema:
-            type: string
+            type: boolean
           required: false
-          description: Whether to include student accommodations in the search. 1 = yes 0 = no
+          description: Whether to include student accommodations in the search
         - in: query
           name: homestays
           schema:
-            type: string
+            type: boolean
           required: false
-          description: Whether to include homestays in the search. 1 = yes 0 = no
+          description: Whether to include homestays in the search
         - in: query
           name: images
           schema:

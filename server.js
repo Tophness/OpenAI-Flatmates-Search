@@ -83,6 +83,14 @@ function createSearchObject(
   if (over40) preferences.push("over-40");
   if (pets) preferences.push("pets");
 
+  shareHouses = shareHouses ? "1" : "0";
+  wholeProperties = wholeProperties ? "1" : "0";
+  studios = studios ? "1" : "0";
+  oneBeds = oneBeds ? "1" : "0";
+  grannyFlats = grannyFlats ? "1" : "0";
+  studentAccommodation = studentAccommodation ? "1" : "0";
+  homestays = homestays ? "1" : "0";
+
   const searchObject = {
     search: {
       mode: "rooms",
