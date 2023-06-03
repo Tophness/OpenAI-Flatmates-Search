@@ -1,7 +1,7 @@
 const express = require('express');
 const proxy = require('express-http-proxy');
 const {URLSearchParams} = require('url');
-const proxy = require('cors');
+const cors = require('cors');
 
 function extractUrlParameters(urlString) {
   const parsedUrl = new URLSearchParams(urlString);
@@ -48,10 +48,6 @@ app.use((req, res, next) => {
 
 app.use('/', proxy('https://flatmates.com.au', {
   proxyReqOptDecorator: function (proxyReqOpts, srcReq) {
-    proxyReqOpts.headers["Access-Control-Allow-Origin"] = "*";
-    proxyReqOpts.headers["Access-Control-Allow-Methods"] = "*";
-    proxyReqOpts.headers["Access-Control-Allow-Headers"] = "*";
-    proxyReqOpts.headers["Access-Control-Allow-Credentials"] = "true";
     proxyReqOpts.headers["Accept"] = "application/json";
     proxyReqOpts.headers["Content-Type"] = "application/x-www-form-urlencoded";
     proxyReqOpts.headers["Origin"] = "https://flatmates.com.au";
