@@ -104,7 +104,7 @@ paths:
         - in: query
           name: numberOfRooms
           schema:
-            type: integer
+            type: string
           required: false
           description: The number of rooms required
         - in: query
@@ -128,13 +128,13 @@ paths:
         - in: query
           name: minBudget
           schema:
-            type: integer
+            type: string
           required: false
           description: The minimum budget for the rental property
         - in: query
           name: maxBudget
           schema:
-            type: integer
+            type: string
           required: false
           description: The maximum budget for the rental property
         - in: query
