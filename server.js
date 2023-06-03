@@ -1,6 +1,7 @@
 const express = require('express');
 const proxy = require('express-http-proxy');
 const {URLSearchParams} = require('url');
+const proxy = require('cors');
 
 function extractUrlParameters(urlString) {
   const parsedUrl = new URLSearchParams(urlString);
