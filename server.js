@@ -59,8 +59,11 @@ app.use('/', proxy('https://flatmates.com.au', {
     if (data.listings) {
       let trimmedData = {
         nextPage: data.nextPage,
-        listings: extractListingInfo(data.listings, imgParam)
+        listings: []
       };
+	  for (const id in trimmedData) {
+        trimmedData.listings.push(extractListingInfo(data.listings[id], imgParam));
+	  }
       return JSON.stringify(trimmedData);
     }
 	else {
