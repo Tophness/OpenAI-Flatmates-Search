@@ -13,6 +13,9 @@ function extractListingInfo(obj, n) {
   const listing = obj.listing;
   const url = obj.link;
   const images = obj.allPhotos && Array.isArray(obj.allPhotos) ? obj.allPhotos.slice(0, n).map(photo => photo.desktop) : undefined;
+  if (images && images.length === 0) {
+    images = undefined;
+  }
   const price = obj.displayRent;
   const billsIncluded = obj.displayBills;
   const bedrooms = listing.number_bedrooms;
