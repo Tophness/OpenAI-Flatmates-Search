@@ -1,7 +1,6 @@
 const express = require('express');
 const proxy = require('express-http-proxy');
 const {URLSearchParams} = require('url');
-const cors = require('cors');
 
 function extractUrlParameters(urlString) {
   const parsedUrl = new URLSearchParams(urlString);
@@ -35,7 +34,6 @@ function extractListingInfo(obj, n) {
 var imgParam = 2;
 
 const app = express();
-app.use(cors());
 app.use(express.static('public'));
 
 app.use((req, res, next) => {
