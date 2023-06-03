@@ -105,6 +105,10 @@ function generateFlatmatesURL(baseUrl,locations,bathroomType,furnishings,parking
     url += "keywords-" + keywordInput.replace(" ", "-") + "+";
   }
   
+  if (gender) {
+    url += gender + "+";
+  }
+  
   if (parking) {
     url += parking + "+";
   }
@@ -121,33 +125,36 @@ function generateFlatmatesURL(baseUrl,locations,bathroomType,furnishings,parking
     url += "available-" + dateAvailable + "+";
   }
   
-  if (minBudget && maxBudget) {
+  if (minBudget){
     url += "min-" + minBudget + "+";
+  }
+  
+  if (maxBudget) {
     url += "max-" + maxBudget + "+";
   }
   
   if (wholeProperties) {
-    url += "+whole-properties";
+    url += "whole-properties+";
   }
   
   if (studios) {
-    url += "+studios";
+    url += "studios+";
   }
   
   if (oneBeds) {
-    url += "+one-beds";
+    url += "one-beds+";
   }
   
   if (grannyFlats) {
-    url += "+granny-flats";
+    url += "granny-flats+";
   }
   
   if (studentAccommodation) {
-    url += "+student-accommodation";
+    url += "student-accommodation+";
   }
   
   if (homestays) {
-    url += "+homestays";
+    url += "homestays+";
   }
   
   if (room) {
