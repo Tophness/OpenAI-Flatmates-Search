@@ -52,6 +52,10 @@ app.use('/', proxy('https://flatmates.com.au', {
     proxyReqOpts.headers["Content-Type"] = "application/x-www-form-urlencoded";
     proxyReqOpts.headers["Origin"] = "https://flatmates.com.au";
     proxyReqOpts.headers["Referer"] = "https://flatmates.com.au";
+    proxyReqOpts.headers["Access-Control-Allow-Origin"] = "*";
+    proxyReqOpts.headers["Access-Control-Allow-Methods"] = "*";
+    proxyReqOpts.headers["Access-Control-Allow-Headers"] = "*";
+    proxyReqOpts.headers["Access-Control-Allow-Credentials"] = "true";
     return proxyReqOpts;
   },
   userResDecorator: function(proxyRes, proxyResData, req, res) {
