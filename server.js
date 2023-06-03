@@ -16,8 +16,8 @@ function extractListingInfo(obj, n) {
   const price = obj.displayRent;
   const billsIncluded = obj.displayBills;
   const bedrooms = listing.number_bedrooms;
-  const occupants = listing.number_bathrooms;
-  const billsIncluded = listing.number_occupants;
+  const bathrooms = listing.number_bathrooms;
+  const occupants = listing.number_occupants;
   const address = obj.displayAddress;
   const rooms = obj.listingSummary;
   const description = obj.subhead + ' ' + obj.description;
