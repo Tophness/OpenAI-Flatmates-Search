@@ -36,6 +36,76 @@ function extractListingInfo(obj, n) {
   };
 }
 
+function createSearchObject(
+  locations,
+  bathroomType,
+  furnishings,
+  parking,
+  gender,
+  lengthOfStay,
+  allFemale,
+  lgbtFriendly,
+  retirees,
+  students,
+  smokers,
+  backpackers,
+  children,
+  over40,
+  pets,
+  numberOfRooms,
+  room,
+  dateAvailable,
+  minBudget,
+  maxBudget,
+  billsIncluded,
+  keywordInput,
+  wholeProperties,
+  studios,
+  oneBeds,
+  grannyFlats,
+  studentAccommodation,
+  homestays
+) {
+  const preferences = [];
+  if (lgbtFriendly) preferences.push("lgbt-friendly");
+  if (retirees) preferences.push("retirees");
+  if (students) preferences.push("students");
+  if (smokers) preferences.push("smokers");
+  if (backpackers) preferences.push("backpackers");
+  if (children) preferences.push("children");
+  if (over40) preferences.push("over-40");
+  if (pets) preferences.push("pets");
+
+  const searchObject = {
+    search: {
+      mode: "rooms",
+      locations: [locations],
+      bathroom_type: bathroomType,
+      furnishings,
+      parking,
+      gender,
+      all_female: allFemale,
+      length_of_stay: lengthOfStay,
+      preferences: preferences,
+      number_of_rooms: numberOfRooms,
+      room,
+      date_available: dateAvailable,
+      min_budget: minBudget,
+      max_budget: maxBudget,
+      bills_included: billsIncluded,
+      keyword_input: keywordInput,
+      "whole-properties": wholeProperties,
+      studios,
+      "1-beds": oneBeds,
+      "granny-flats": grannyFlats,
+      "student-accommodation": studentAccommodation,
+      homestays,
+    },
+  };
+
+  return JSON.stringify(searchObject);
+}
+
 var imgParam = 2;
 
 const app = express();
@@ -50,12 +120,44 @@ app.use((req, res, next) => {
   next();
 });
 
-app.use('/', proxy('https://flatmates.com.au', {
+app.use('/', proxy('https://flatmates.com.au/search', {
   proxyReqOptDecorator: function (proxyReqOpts, srcReq) {
     proxyReqOpts.headers["Accept"] = "application/json";
     proxyReqOpts.headers["Content-Type"] = "application/x-www-form-urlencoded";
     proxyReqOpts.headers["Origin"] = "https://flatmates.com.au";
-    proxyReqOpts.headers["Referer"] = "https://flatmates.com.au";
+    proxyReqOpts.headers["Referer"] = "https://flatmates.com.au";	
+    const params = extractUrlParameters(srcReq.url.replace('/?',''));
+    const paramObject = createSearchObject(
+      params.locations,
+	  params.bathroomType,
+	  params.furnishings,
+	  params.parking,
+	  params.gender,
+	  params.lengthOfStay,
+	  params.allFemale,
+	  params.lgbtFriendly,
+	  params.retirees,
+	  params.students,
+	  params.smokers,
+	  params.backpackers,
+	  params.children,
+	  params.over40,
+	  params.pets,
+	  params.numberOfRooms,
+	  params.room,
+	  params.dateAvailable,
+	  params.minBudget,
+	  params.maxBudget,
+	  params.billsIncluded,
+	  params.keywordInput,
+	  params.wholeProperties,
+	  params.studios,
+	  params.oneBeds,
+	  params.grannyFlats,
+	  params.studentAccommodation,
+	  params.homestays
+	);
+    srcReq.url = '/?' + JSON.stringify(paramObject);
     return proxyReqOpts;
   },
   userResDecorator: function(proxyRes, proxyResData, req, res) {

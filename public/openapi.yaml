@@ -9,75 +9,176 @@ paths:
   /:
     get:
       operationId: getRentalsFlatmates
-      summary: |
-        Get a list of available rentals in the area the user is searching using flatmates.com.au.
+      summary: Get a list of available rentals in the area the user is searching using flatmates.com.au.
       parameters:
         - in: query
-          name: channel
-          schema:
-            type: string
-          required: true
-          description: Set to rent or buy depending on whether user wants to search for rental properties or houses to buy. Default is rent
-        - in: query
-          name: propertyType
-          schema:
-            type: string
-          required: true
-          description: A type of property the user is looking for. Options are house, apartment, townhouse, villa, unit or all. Default is all
-        - in: query
-          name: subdivision
+          name: locations
           schema:
             type: string
           required: false
-          description: State user is searching for properties in. Default is NSW
+          description: The location of the rental property, formatted as suburb-postcode. e.g. "penrith-2750"
         - in: query
-          name: postcode
-          schema:
-            type: number
-          required: false
-          description: Postcode user is searching for properties in. Default is 2287
-        - in: query
-          name: searchLocation
+          name: bathroomType
           schema:
             type: string
           required: false
-          description: Location user is searching for properties in, formatted as "STATE POSTCODE". Default is NSW 2287
+          description: The type of bathroom in the rental property. Options are: "ensuite-or-own" or "ensuite"
         - in: query
-          name: pageSize
+          name: furnishings
           schema:
-            type: number
+            type: string
           required: false
-          description: How many listings per page user is requesting. Default is 20
+          description: The furnishings of the rental property. Options are "furnished" or "unfurnished"
         - in: query
-          name: page
+          name: parking
           schema:
-            type: number
+            type: string
           required: false
-          description: What page number user is requesting. Default is 1
+          description: The parking requirements for the rental property. Options are "off-street-parking" or "on-street-parking"
         - in: query
-          name: minimumPrice
+          name: gender
           schema:
-            type: number
+            type: string
           required: false
-          description: Minimum price of the property. Default is 200
+          description: The gender preference for the rental property. Options are "male", "female" or "couples"
         - in: query
-          name: maximumPrice
-          schema:
-            type: number
-          required: false
-          description: Maximum price of the property. Default is 600
-        - in: query
-          name: surroundingSuburbs
+          name: allFemale
           schema:
             type: boolean
           required: false
-          description: Whether to search for surrounding suburbs. Default is true
+          description: Whether the rental property is all-female
         - in: query
-          name: replaceProjectWithFirstChild
+          name: lengthOfStay
+          schema:
+            type: integer
+          required: false
+          description: The desired length of stay in weeks, months or years. e.g. "1 year"
+        - in: query
+          name: lgbtFriendly
           schema:
             type: boolean
           required: false
-          description: Default is false
+          description: Whether the rental property is LGBT-friendly
+        - in: query
+          name: retirees
+          schema:
+            type: boolean
+          required: false
+          description: Whether the rental property is suitable for retirees
+        - in: query
+          name: students
+          schema:
+            type: boolean
+          required: false
+          description: Whether the rental property is suitable for students
+        - in: query
+          name: smokers
+          schema:
+            type: boolean
+          required: false
+          description: Whether the rental property allows smoking
+        - in: query
+          name: backpackers
+          schema:
+            type: boolean
+          required: false
+          description: Whether the rental property is suitable for backpackers
+        - in: query
+          name: children
+          schema:
+            type: boolean
+          required: false
+          description: Whether the rental property is suitable for children
+        - in: query
+          name: over40
+          schema:
+            type: boolean
+          required: false
+          description: Whether the rental property is suitable for people over 40
+        - in: query
+          name: pets
+          schema:
+            type: boolean
+          required: false
+          description: Whether the rental property allows pets
+        - in: query
+          name: numberOfRooms
+          schema:
+            type: integer
+          required: false
+          description: The number of rooms required
+        - in: query
+          name: room
+          schema:
+            type: string
+          required: false
+          description: The type of room. Options are private-room and shared-room
+        - in: query
+          name: dateAvailable
+          schema:
+            type: string
+          required: false
+          description: The date the rental property is available, formatted as day-month-year. e.g. "03-06-2023"
+        - in: query
+          name: minBudget
+          schema:
+            type: integer
+          required: false
+          description: The minimum budget for the rental property
+        - in: query
+          name: maxBudget
+          schema:
+            type: integer
+          required: false
+          description: The maximum budget for the rental property
+        - in: query
+          name: billsIncluded
+          schema:
+            type: boolean
+          required: false
+          description: Whether bills are included in the price of the rental property
+        - in: query
+          name: keywordInput
+          schema:
+            type: string
+          required: false
+          description: Keywords for the rental property search
+        - in: query
+          name: wholeProperties
+          schema:
+            type: string
+          required: false
+          description: Whether to include whole properties in the search
+        - in: query
+          name: studios
+          schema:
+            type: string
+          required: false
+          description: Whether to include studios in the search
+        - in: query
+          name: oneBeds
+          schema:
+            type: string
+          required: false
+          description: Whether to include 1-bedroom properties in the search
+        - in: query
+          name: grannyFlats
+          schema:
+            type: string
+          required: false
+          description: Whether to include granny flats in the search
+        - in: query
+          name: studentAccommodation
+          schema:
+            type: string
+          required: false
+          description: Whether to include student accommodations in the search
+        - in: query
+          name: homestays
+          schema:
+            type: string
+          required: false
+          description: Whether to include homestays in the search
         - in: query
           name: images
           schema:
@@ -109,112 +210,30 @@ components:
         nextPage:
           type: number
           description: The next page number for pagination
-        results:
+        listings:
           type: array
           items:
             type: object
             properties:
-              prettyUrl:
+              url:
+                type: string
+              images:
+                type: array
+                items:
+                  type: string
+              price:
+                type: string
+              billsIncluded:
+                type: string
+              bedrooms:
+                type: number
+              bathrooms:
+                type: number
+              occupants:
+                type: number
+              address:
+                type: string
+              rooms:
                 type: string
               description:
                 type: string
-              title:
-                type: string
-              features:
-                type: object
-                properties:
-                  general:
-                    type: object
-                    properties:
-                      bedrooms:
-                        type: number
-                      bathrooms:
-                        type: number
-                      parkingSpaces:
-                        type: number
-              price:
-                type: object
-                properties:
-                  display:
-                    type: string
-              propertyType:
-                type: string
-              address:
-                type: object
-                properties:
-                  streetAddress:
-                    type: string
-                  postcode:
-                    type: string
-                  suburb:
-                    type: string
-                  postCode:
-                    type: string
-                  location:
-                    type: object
-                    properties:
-                      latitude:
-                        type: number
-                      longitude:
-                        type: number
-                  state:
-                    type: string
-              propertyFeatures:
-                type: array
-                items:
-                  type: object
-                  properties:
-                    features:
-                      type: array
-                      items:
-                        type: string
-                    section:
-                      type: string
-                    label:
-                      type: string
-              bond:
-                type: object
-                properties:
-                  display:
-                    type: string
-                  value:
-                    type: number
-              dateAvailable:
-                type: object
-                properties:
-                  date:
-                    type: string
-              inspectionsAndAuctions:
-                type: array
-                items:
-                  type: object
-              generalFeatures:
-                type: object
-                properties:
-                  bedrooms:
-                    type: object
-                    properties:
-                      label:
-                        type: string
-                      type:
-                        type: string
-                      value:
-                        type: number
-                  bathrooms:
-                    type: object
-                    properties:
-                      label:
-                        type: string
-                      type:
-                        type: string
-                      value:
-                        type: number
-                  parkingSpaces:
-                    type: object
-                    properties:
-                      label:
-                        type: string
-                      type:
-                        type: string
-                      value:
-                        type: number
