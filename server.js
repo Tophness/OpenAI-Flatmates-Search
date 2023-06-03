@@ -9,7 +9,7 @@ function extractUrlParameters(urlString) {
   return params;
 }
 
-function extractListingInfo(obj, n) {
+function extractFlatmatesListingInfo(obj, n) {
   const listing = obj.listing;
   const url = obj.link;
   const images = obj.allPhotos && Array.isArray(obj.allPhotos) ? obj.allPhotos.slice(0, n).map(photo => photo.desktop) : undefined;
@@ -231,7 +231,7 @@ app.use('/', proxy('https://flatmates.com.au', {
         listings: []
       };
 	  for (const id in data.listings) {
-		let listingInfo = extractListingInfo(data.listings[id], imgParam);
+		let listingInfo = extractFlatmatesListingInfo(data.listings[id], imgParam);
         trimmedData.listings.push(listingInfo);
 	  }
       return JSON.stringify(trimmedData);
