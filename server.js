@@ -165,7 +165,8 @@ app.use('/', proxy('https://flatmates.com.au', {
 	  params.homestays,
 	  params.shareHouses
 	);
-    proxyReqOpts.data = JSON.stringify(paramObject);
+    proxyReqOpts.json = JSON.stringify(paramObject);
+	console.log(JSON.stringify(paramObject));
     return proxyReqOpts;
   },
   userResDecorator: function(proxyRes, proxyResData, req, res) {
