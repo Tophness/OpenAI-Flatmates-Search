@@ -1,6 +1,7 @@
 const express = require('express');
 const proxy = require('express-http-proxy');
 const {URLSearchParams} = require('url');
+const cors = require('cors');
 
 function extractUrlParameters(urlString) {
   const parsedUrl = new URLSearchParams(urlString);
@@ -34,6 +35,7 @@ function extractListingInfo(obj, n) {
 var imgParam = 2;
 
 const app = express();
+app.use(cors());
 app.use(express.static('public'));
 
 app.use((req, res, next) => {
@@ -50,10 +52,6 @@ app.use('/', proxy('https://flatmates.com.au', {
     proxyReqOpts.headers["Content-Type"] = "application/x-www-form-urlencoded";
     proxyReqOpts.headers["Origin"] = "https://flatmates.com.au";
     proxyReqOpts.headers["Referer"] = "https://flatmates.com.au";
-    proxyReqOpts.headers["Access-Control-Allow-Origin"] = "*";
-    proxyReqOpts.headers["Access-Control-Allow-Methods"] = "*";
-    proxyReqOpts.headers["Access-Control-Allow-Headers"] = "*";
-    proxyReqOpts.headers["Access-Control-Allow-Credentials"] = "true";
     return proxyReqOpts;
   },
   userResDecorator: function(proxyRes, proxyResData, req, res) {
@@ -63,7 +61,7 @@ app.use('/', proxy('https://flatmates.com.au', {
         nextPage: data.nextPage,
         listings: []
       };
-	  for (const id in trimmedData) {
+	  for (const id in data.listings) {
         trimmedData.listings.push(extractListingInfo(data.listings[id], imgParam));
 	  }
       return JSON.stringify(trimmedData);
