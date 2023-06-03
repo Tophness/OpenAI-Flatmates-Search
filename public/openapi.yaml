@@ -230,7 +230,7 @@ components:
               price:
                 type: string
               billsIncluded:
-                type: string
+                type: boolean
               bedrooms:
                 type: number
               bathrooms:
