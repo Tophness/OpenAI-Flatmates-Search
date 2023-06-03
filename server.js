@@ -8,8 +8,43 @@ function extractUrlParameters(urlString) {
   return params;
 }
 
+function extractListingInfo(obj, n) {
+  const listing = obj.listing;
+  const link = obj.link;
+  const allPhotos = n > 0 ? obj['0'].allPhotos.slice(0, n).map(photo => photo.desktop) : [];
+  const displayRent = obj.displayRent + ' ' + obj.displayBills;
+  const { number_bedrooms, number_bathrooms, number_occupants } = listing;
+  const displayAddress = obj.displayAddress;
+  const listingSummary = obj.listingSummary;
+  const subhead = obj.subhead + ' ' + obj.description;
+
+  return {
+    link,
+    allPhotos,
+    displayRent,
+    number_bedrooms,
+    number_bathrooms,
+    number_occupants,
+    displayAddress,
+    listingSummary,
+    subhead,
+  };
+}
+
+var imgParam = 2;
+
 const app = express();
+app.use(cors());
 app.use(express.static('public'));
+
+app.use((req, res, next) => {
+  const params = new URLSearchParams(req.url.replace('/?',''));
+  if(params.get('images')){
+    imgParam = parseInt(params.get('images'));
+  }
+  next();
+});
+
 app.use('/', proxy('https://flatmates.com.au', {
   proxyReqOptDecorator: function (proxyReqOpts, srcReq) {
     proxyReqOpts.headers["Access-Control-Allow-Origin"] = "*";
@@ -23,7 +58,17 @@ app.use('/', proxy('https://flatmates.com.au', {
     return proxyReqOpts;
   },
   userResDecorator: function(proxyRes, proxyResData, req, res) {
-      return proxyResData.toString('utf8');
+    const data = JSON.parse(proxyResData.toString("utf8"));
+    if (data.listings) {
+      let trimmedData = {
+        nextPage: data.nextPage,
+        listings: extractListingInfo(data.listings, imgParam)
+      };
+      return JSON.stringify(trimmedData);
+    }
+	else {
+      return proxyResData;
+    }
   }
 }));
 

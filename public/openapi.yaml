@@ -106,15 +106,9 @@ components:
     getApartmentsResponse:
       type: object
       properties:
-        totalListings:
+        nextPage:
           type: number
-          description: Total number of property listings. You can also use this to work out how many more pages there are to navigate through by dividing the totalListings number by the number of listings per page
-        currentPage:
-          type: number
-          description: The current page number
-        pageSize:
-          type: number
-          description: The number of listings per page
+          description: The next page number for pagination
         results:
           type: array
           items:
