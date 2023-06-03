@@ -42,84 +42,123 @@ function extractListingInfo(obj, n) {
   };
 }
 
-function createSearchObject(
-  locations,
-  bathroomType,
-  furnishings,
-  parking,
-  gender,
-  lengthOfStay,
-  allFemale,
-  lgbtFriendly,
-  retirees,
-  students,
-  smokers,
-  backpackers,
-  children,
-  over40,
-  pets,
-  numberOfRooms,
-  room,
-  dateAvailable,
-  minBudget,
-  maxBudget,
-  billsIncluded,
-  keywordInput,
-  wholeProperties,
-  studios,
-  oneBeds,
-  grannyFlats,
-  studentAccommodation,
-  homestays,
-  shareHouses
-) {
-  const preferences = [];
-  if (lgbtFriendly) preferences.push("lgbt-friendly");
-  if (retirees) preferences.push("retirees");
-  if (students) preferences.push("students");
-  if (smokers) preferences.push("smokers");
-  if (backpackers) preferences.push("backpackers");
-  if (children) preferences.push("children");
-  if (over40) preferences.push("over-40");
-  if (pets) preferences.push("pets");
-
-  shareHouses = shareHouses ? "1" : "0";
-  wholeProperties = wholeProperties ? "1" : "0";
-  studios = studios ? "1" : "0";
-  oneBeds = oneBeds ? "1" : "0";
-  grannyFlats = grannyFlats ? "1" : "0";
-  studentAccommodation = studentAccommodation ? "1" : "0";
-  homestays = homestays ? "1" : "0";
-
-  const searchObject = {
-    search: {
-      mode: "rooms",
-      locations: [locations],
-      bathroom_type: bathroomType,
-      furnishings,
-      parking,
-      gender,
-      all_female: allFemale,
-      length_of_stay: lengthOfStay,
-      preferences: preferences,
-      number_of_rooms: numberOfRooms,
-      room,
-      date_available: dateAvailable,
-      min_budget: minBudget,
-      max_budget: maxBudget,
-      bills_included: billsIncluded,
-      keyword_input: keywordInput,
-      "whole-properties": wholeProperties,
-      studios,
-      "1-beds": oneBeds,
-      "granny-flats": grannyFlats,
-      "student-accommodation": studentAccommodation,
-      homestays,
-      "share-houses": shareHouses
-    },
-  };
-
-  return JSON.stringify(searchObject);
+function generateFlatmatesURL(baseURl,locations,bathroomType,furnishings,parking,gender,lengthOfStay,allFemale,lgbtFriendly,retirees,students,smokers,backpackers,children,over40,pets,numberOfRooms,room,dateAvailable,minBudget,maxBudget,billsIncluded,keywordInput,wholeProperties,studios,oneBeds,grannyFlats,studentAccommodation,homestays,shareHouses) {
+  let url = baseUrl + locations + "/";
+  
+  if (numberOfRooms > 1) {
+    url += numberOfRooms + "-rooms+";
+  }
+  
+  if (allFemale) {
+    url += "all-female+";
+  }
+  
+  if (lengthOfStay) {
+    url += lengthOfStay.replace(" ", "-") + "+";
+  }
+  
+  if (backpackers) {
+    url += "backpackers+";
+  }
+  
+  if (children) {
+    url += "children+";
+  }
+  
+  if (lgbtFriendly) {
+    url += "lgbt-friendly+";
+  }
+  
+  if (over40) {
+    url += "over-40+";
+  }
+  
+  if (pets) {
+    url += "pets+";
+  }
+  
+  if (retirees) {
+    url += "retirees+";
+  }
+  
+  if (smokers) {
+    url += "smokers+";
+  }
+  
+  if (students) {
+    url += "students+";
+  }
+  
+  if (billsIncluded) {
+    url += "bills-included+";
+  }
+  
+  if (furnishings) {
+    url += furnishings + "+";
+  }
+  
+  if (bathroomType) {
+    url += bathroomType + "+";
+  }
+  
+  if (keywordInput) {
+    url += "keywords-" + keywordInput.replace(" ", "-") + "+";
+  }
+  
+  if (parking) {
+    url += parking + "+";
+  }
+  
+  if (room) {
+    url += room + "+";
+  }
+  
+  if (shareHouses) {
+    url += "share-houses+";
+  }
+  
+  if (dateAvailable) {
+    url += "available-" + dateAvailable + "+";
+  }
+  
+  if (minBudget && maxBudget) {
+    url += "min-" + minBudget + "+";
+    url += "max-" + maxBudget + "+";
+  }
+  
+  if (wholeProperties) {
+    url += "+whole-properties";
+  }
+  
+  if (studios) {
+    url += "+studios";
+  }
+  
+  if (oneBeds) {
+    url += "+one-beds";
+  }
+  
+  if (grannyFlats) {
+    url += "+granny-flats";
+  }
+  
+  if (studentAccommodation) {
+    url += "+student-accommodation";
+  }
+  
+  if (homestays) {
+    url += "+homestays";
+  }
+  
+  if (room) {
+    url += room + "+";
+  }
+  if(url.endsWith('+')){
+    url.slice(0, -1);
+  }
+  url += "?search_source=search_function";
+  
+  return url;
 }
 
 var imgParam = 2;
@@ -148,7 +187,8 @@ app.use('/', proxy('https://flatmates.com.au', {
     proxyReqOpts.headers["Referer"] = "https://flatmates.com.au";
     proxyReqOpts.method = 'POST';
     const params = extractUrlParameters(srcReq.url.replace('/?',''));
-    const paramObject = createSearchObject(
+    const flatmatesURL = generateFlatmatesURL(
+	  'https://flatmates.com.au/rooms/',
       params.locations,
 	  params.bathroomType,
 	  params.furnishings,
@@ -179,7 +219,7 @@ app.use('/', proxy('https://flatmates.com.au', {
 	  params.homestays,
 	  params.shareHouses
 	);
-    proxyReqOpts.json = JSON.stringify(paramObject);
+	srcReq.url = flatmatesURL;
     return proxyReqOpts;
   },
   userResDecorator: function(proxyRes, proxyResData, req, res) {
