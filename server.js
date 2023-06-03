@@ -26,7 +26,7 @@ function extractListingInfo(obj, n) {
     url,
     ...(images && images.length > 0 && { images }),
     price,
-	billsIncluded,
+    billsIncluded,
     bedrooms,
     bathrooms,
     occupants,
@@ -101,7 +101,7 @@ function createSearchObject(
       "granny-flats": grannyFlats,
       "student-accommodation": studentAccommodation,
       homestays,
-	  "share-houses": shareHouses
+      "share-houses": shareHouses
     },
   };
 
@@ -109,6 +109,7 @@ function createSearchObject(
 }
 
 var imgParam = 2;
+var descParam = 200;
 
 const app = express();
 app.use(cors());
@@ -119,6 +120,9 @@ app.use((req, res, next) => {
   if(params.get('images')){
     imgParam = parseInt(params.get('images'));
   }
+  if(params.get('descriptionLength')){
+    descParam = parseInt(params.get('descriptionLength'));
+  }
   next();
 });
 
@@ -128,7 +132,7 @@ app.use('/', proxy('https://flatmates.com.au', {
     proxyReqOpts.headers["Content-Type"] = "application/x-www-form-urlencoded";
     proxyReqOpts.headers["Origin"] = "https://flatmates.com.au";
     proxyReqOpts.headers["Referer"] = "https://flatmates.com.au";
-	proxyReqOpts.method = 'POST';
+    proxyReqOpts.method = 'POST';
     const params = extractUrlParameters(srcReq.url.replace('/?',''));
     const paramObject = createSearchObject(
       params.locations,
@@ -172,7 +176,16 @@ app.use('/', proxy('https://flatmates.com.au', {
         listings: []
       };
 	  for (const id in data.listings) {
-        trimmedData.listings.push(extractListingInfo(data.listings[id], imgParam));
+		let listingInfo = extractListingInfo(data.listings[id], imgParam);
+	    if (descParam) {
+		  if(descParam > 0){
+			listingInfo.description = listingInfo.description.slice(0, descParam);
+		  }
+		}
+		else{
+			delete listingInfo.description;
+		}
+        trimmedData.listings.push(listingInfo);
 	  }
       return JSON.stringify(trimmedData);
     }

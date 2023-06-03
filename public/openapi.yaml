@@ -191,6 +191,12 @@ paths:
             type: integer
           required: false
           description: Set to 0 to disable image results or any other number to set how many images per result to return. Default value is 2
+        - in: query
+          name: descriptionLength
+          schema:
+            type: integer
+          required: false
+          description: Set to 0 to disable desciption results or any other number to set the amount of characters to trim the description down to. Default value is 200
       responses:
         "200":
           description: OK
