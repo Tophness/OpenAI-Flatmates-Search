@@ -12,7 +12,7 @@ function extractUrlParameters(urlString) {
 function extractListingInfo(obj, n) {
   const listing = obj.listing;
   const url = obj.link;
-  const images = n > 0 ? obj.allPhotos.slice(0, n).map(photo => photo.desktop) : [];
+  const images = obj.allPhotos && Array.isArray(obj.allPhotos) ? obj.allPhotos.slice(0, n).map(photo => photo.desktop) : [];
   const price = obj.displayRent;
   const billsIncluded = obj.displayBills;
   const { number_bedrooms, number_bathrooms, number_occupants } = listing;
