@@ -22,7 +22,7 @@ paths:
           schema:
             type: string
           required: false
-          description: The type of bathroom in the rental property. Options are: "ensuite-or-own" or "ensuite"
+          description: The type of bathroom in the rental property. Options are "ensuite-or-own" or "ensuite"
         - in: query
           name: furnishings
           schema:
@@ -114,6 +114,12 @@ paths:
           required: false
           description: The type of room. Options are private-room and shared-room
         - in: query
+          name: shareHouses
+          schema:
+            type: string
+          required: false
+          description: Whether to include share houses in the rental properties. 1 = yes 0 = no
+        - in: query
           name: dateAvailable
           schema:
             type: string
@@ -148,37 +154,37 @@ paths:
           schema:
             type: string
           required: false
-          description: Whether to include whole properties in the search
+          description: Whether to include whole properties in the search. 1 = yes 0 = no
         - in: query
           name: studios
           schema:
             type: string
           required: false
-          description: Whether to include studios in the search
+          description: Whether to include studios in the search. 1 = yes 0 = no
         - in: query
           name: oneBeds
           schema:
             type: string
           required: false
-          description: Whether to include 1-bedroom properties in the search
+          description: Whether to include 1-bedroom properties in the search. 1 = yes 0 = no
         - in: query
           name: grannyFlats
           schema:
             type: string
           required: false
-          description: Whether to include granny flats in the search
+          description: Whether to include granny flats in the search. 1 = yes 0 = no
         - in: query
           name: studentAccommodation
           schema:
             type: string
           required: false
-          description: Whether to include student accommodations in the search
+          description: Whether to include student accommodations in the search. 1 = yes 0 = no
         - in: query
           name: homestays
           schema:
             type: string
           required: false
-          description: Whether to include homestays in the search
+          description: Whether to include homestays in the search. 1 = yes 0 = no
         - in: query
           name: images
           schema:

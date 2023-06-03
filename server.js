@@ -64,7 +64,8 @@ function createSearchObject(
   oneBeds,
   grannyFlats,
   studentAccommodation,
-  homestays
+  homestays,
+  shareHouses
 ) {
   const preferences = [];
   if (lgbtFriendly) preferences.push("lgbt-friendly");
@@ -100,6 +101,7 @@ function createSearchObject(
       "granny-flats": grannyFlats,
       "student-accommodation": studentAccommodation,
       homestays,
+	  "share-houses": shareHouses
     },
   };
 
@@ -120,7 +122,7 @@ app.use((req, res, next) => {
   next();
 });
 
-app.use('/', proxy('https://flatmates.com.au/search', {
+app.use('/', proxy('https://flatmates.com.au', {
   proxyReqOptDecorator: function (proxyReqOpts, srcReq) {
     proxyReqOpts.headers["Accept"] = "application/json";
     proxyReqOpts.headers["Content-Type"] = "application/x-www-form-urlencoded";
@@ -155,7 +157,8 @@ app.use('/', proxy('https://flatmates.com.au/search', {
 	  params.oneBeds,
 	  params.grannyFlats,
 	  params.studentAccommodation,
-	  params.homestays
+	  params.homestays,
+	  params.shareHouses
 	);
     srcReq.url = '/?' + JSON.stringify(paramObject);
     return proxyReqOpts;
