@@ -20,7 +20,13 @@ function extractListingInfo(obj, n) {
   const occupants = listing.number_occupants;
   const address = obj.displayAddress;
   const rooms = obj.listingSummary;
-  const description = obj.subhead + ' ' + obj.description;
+  let description = '';
+  if (descParam > 0) {
+    description = obj.subhead + ' ' + obj.description;
+    if (description.length > descParam) {
+      description = description.slice(0, descParam);
+    }
+  }
 
   return {
     url,
@@ -32,7 +38,7 @@ function extractListingInfo(obj, n) {
     occupants,
     address,
     rooms,
-    description,
+    ...(description && { description }),
   };
 }
 
@@ -166,7 +172,6 @@ app.use('/', proxy('https://flatmates.com.au', {
 	  params.shareHouses
 	);
     proxyReqOpts.json = JSON.stringify(paramObject);
-	console.log(JSON.stringify(paramObject));
     return proxyReqOpts;
   },
   userResDecorator: function(proxyRes, proxyResData, req, res) {
@@ -178,14 +183,6 @@ app.use('/', proxy('https://flatmates.com.au', {
       };
 	  for (const id in data.listings) {
 		let listingInfo = extractListingInfo(data.listings[id], imgParam);
-	    if (descParam) {
-		  if(descParam > 0){
-			listingInfo.description = listingInfo.description.slice(0, descParam);
-		  }
-		}
-		else{
-			delete listingInfo.description;
-		}
         trimmedData.listings.push(listingInfo);
 	  }
       return JSON.stringify(trimmedData);
