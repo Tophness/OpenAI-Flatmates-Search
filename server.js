@@ -226,7 +226,6 @@ app.use('/', proxy('https://flatmates.com.au', {
 	  params.homestays,
 	  params.shareHouses
 	);
-	console.log(flatmatesURL);
 	srcReq.url = flatmatesURL;
     return proxyReqOpts;
   },
