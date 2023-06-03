@@ -42,7 +42,7 @@ function extractListingInfo(obj, n) {
   };
 }
 
-function generateFlatmatesURL(baseURl,locations,bathroomType,furnishings,parking,gender,lengthOfStay,allFemale,lgbtFriendly,retirees,students,smokers,backpackers,children,over40,pets,numberOfRooms,room,dateAvailable,minBudget,maxBudget,billsIncluded,keywordInput,wholeProperties,studios,oneBeds,grannyFlats,studentAccommodation,homestays,shareHouses) {
+function generateFlatmatesURL(baseUrl,locations,bathroomType,furnishings,parking,gender,lengthOfStay,allFemale,lgbtFriendly,retirees,students,smokers,backpackers,children,over40,pets,numberOfRooms,room,dateAvailable,minBudget,maxBudget,billsIncluded,keywordInput,wholeProperties,studios,oneBeds,grannyFlats,studentAccommodation,homestays,shareHouses) {
   let url = baseUrl + locations + "/";
   
   if (numberOfRooms > 1) {
