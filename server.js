@@ -11,23 +11,25 @@ function extractUrlParameters(urlString) {
 
 function extractListingInfo(obj, n) {
   const listing = obj.listing;
-  const link = obj.link;
-  const allPhotos = n > 0 ? obj.allPhotos.slice(0, n).map(photo => photo.desktop) : [];
-  const displayRent = obj.displayRent + ' ' + obj.displayBills;
+  const url = obj.link;
+  const images = n > 0 ? obj.allPhotos.slice(0, n).map(photo => photo.desktop) : [];
+  const price = obj.displayRent;
+  const billsIncluded = obj.displayBills;
   const { number_bedrooms, number_bathrooms, number_occupants } = listing;
-  const displayAddress = obj.displayAddress;
-  const listingSummary = obj.listingSummary;
+  const address = obj.displayAddress;
+  const roomsAvailable = obj.listingSummary;
   const description = obj.subhead + ' ' + obj.description;
 
   return {
-    link,
-    allPhotos,
-    displayRent,
+    url,
+    images,
+    price,
+	billsIncluded,
     number_bedrooms,
     number_bathrooms,
     number_occupants,
-    displayAddress,
-    listingSummary,
+    address,
+    roomsAvailable,
     description,
   };
 }
