@@ -17,7 +17,7 @@ function extractListingInfo(obj, n) {
   const { number_bedrooms, number_bathrooms, number_occupants } = listing;
   const displayAddress = obj.displayAddress;
   const listingSummary = obj.listingSummary;
-  const subhead = obj.subhead + ' ' + obj.description;
+  const description = obj.subhead + ' ' + obj.description;
 
   return {
     link,
@@ -28,7 +28,7 @@ function extractListingInfo(obj, n) {
     number_occupants,
     displayAddress,
     listingSummary,
-    subhead,
+    description,
   };
 }
 
