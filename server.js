@@ -127,7 +127,8 @@ app.use('/', proxy('https://flatmates.com.au', {
     proxyReqOpts.headers["Accept"] = "application/json";
     proxyReqOpts.headers["Content-Type"] = "application/x-www-form-urlencoded";
     proxyReqOpts.headers["Origin"] = "https://flatmates.com.au";
-    proxyReqOpts.headers["Referer"] = "https://flatmates.com.au";	
+    proxyReqOpts.headers["Referer"] = "https://flatmates.com.au";
+	proxyReqOpts.method = 'POST';
     const params = extractUrlParameters(srcReq.url.replace('/?',''));
     const paramObject = createSearchObject(
       params.locations,
@@ -160,7 +161,7 @@ app.use('/', proxy('https://flatmates.com.au', {
 	  params.homestays,
 	  params.shareHouses
 	);
-    srcReq.url = '/?' + JSON.stringify(paramObject);
+    srcReq.data = JSON.stringify(paramObject);
     return proxyReqOpts;
   },
   userResDecorator: function(proxyRes, proxyResData, req, res) {
